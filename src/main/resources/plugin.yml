@@ -1,0 +1,24 @@
+name: 5min2live
+main: com.goodformentertainment.minecraft.fmtl.FmtlPlugin
+version: 0.1.0
+description: You have five minutes to live. Good luck!
+author: ToddHarrison
+load: POSTWORLD
+
+depend: [Multiverse-Core]
+softdepend: [Vault]
+
+commands:
+  5m2l:
+    description: Commands to play 5min2live
+    aliases: [fmtl]
+    usage: |
+      /5m2l [exit]
+  oni:
+    description: Oni commands
+    usage: |
+      /oni - return to the Oni
+
+permissions:
+  5m2l.*:
+    description: Lets you play 5min2live.

@@ -1,0 +1,130 @@
+challengeSets:
+  - minLevel : 0
+    maxLevel : 4
+    challenges:
+      - name : 3 dirt
+        item : { type: DIRT, amount: 3 }
+      - name : 3 sand
+        item : { type: SAND, amount: 3 }
+      - name : 3 gravel
+        item : { type: GRAVEL, amount: 3 }
+      - name : 3 oak logs
+        item : { type: LOG, damage: 0, amount: 3 }
+      - name : 3 cobblestone
+        item : { type: COBBLESTONE, amount: 3 }
+      - name : 3 wheat seeds
+        item : { type: SEEDS, amount: 3 }
+      - name : 3 oak saplings
+        item : { type: SAPLING, damage: 0, amount: 3 }
+  - minLevel : 5
+    maxLevel : 10
+    challenges:
+      - name : 3 spruce log
+        item : { type: LOG, damage: 1, amount: 3 }
+      - name : 3 birch log
+        item : { type: LOG, damage: 2, amount: 3 }
+      - name : 3 clay balls
+        item : { type: CLAY_BALL, amount: 3 }
+      - name : 3 raw chicken
+        item : { type: RAW_CHICKEN, amount: 3 }
+      - name : 3 raw pork
+        item : { type: PORK, amount: 3 }
+      - name : 3 raw beef
+        item : { type: RAW_BEEF, amount: 3 }
+      - name : 3 yellow dandelions
+        item : { type: YELLOW_FLOWER, amount: 3 }
+      - name : 3 red poppies
+        item : { type: RED_ROSE, amount: 3 }
+      - name : 3 spruce sapling
+        item : { type: SAPLING, damage: 1, amount: 3 }
+      - name : 3 birch sapling
+        item : { type: SAPLING, damage: 2, amount: 3 }
+      - name : 3 sandstone
+        item : { type: SANDSTONE, amount: 3 }
+      - name : 3 rotten flesh
+        item : { type: ROTTEN_FLESH, amount: 3 }
+      - name : 3 white wool
+        item : { type: WOOL, damage: 0, amount: 3 }
+      - name : 3 bones
+        item : { type: BONE, amount: 3 }
+      - name : 3 feathers
+        item : { type: FEATHER, amount: 3 }
+  - minLevel : 11
+    maxLevel : 19
+    challenges:
+      - name : 3 coal
+        item : { type: COAL, amount: 3 }
+      - name : 3 eggs
+        item : { type: EGG, amount: 3 }
+      - name : 3 apples
+        item : { type: APPLE, amount: 3 }
+      - name : 3 sugar cane
+        item : { type: SUGAR_CANE, amount: 3 }
+      - name : 3 brown mushrooms
+        item : { type: BROWN_MUSHROOM, amount: 3 }
+      - name : 3 red mushrooms
+        item : { type: RED_MUSHROOM, amount: 3 }
+      - name : 3 jungle log
+        item : { type: LOG, damage: 3, amount: 3 }
+      - name : 3 cocoa beans
+        item : { type: INK_SACK, damage: 3, amount: 3 }
+      - name : 3 cactus
+        item : { type: CACTUS, amount: 3 }
+      - name : 3 leather
+        item : { type: LEATHER, amount: 3 }
+      - name : 3 iron ore
+        item : { type: IRON_ORE, amount: 3 }
+      - name : 3 snow balls
+        item : { type: SNOW_BALL, amount: 3 }
+      - name : 3 gunpowder
+        item : { type: SULPHUR, amount: 3 }
+      - name : 3 arrows
+        item : { type: ARROW, amount: 3 }
+      - name : 3 ink sacks
+        item : { type: INK_SACK, damage: 0, amount: 3 }
+      - name : 3 lily pads
+        item : { type: WATER_LILY, amount: 3 }
+      - name : 3 jungle sapling
+        item : { type: SAPLING, damage: 3, amount: 3 }
+  - minLevel : 20
+    maxLevel : 29
+    challenges:
+      - name : 3 spider eyes
+        item : { type: SPIDER_EYE, amount: 3 }
+      - name : 3 string
+        item : { type: STRING, amount: 3 }
+      - name : 3 raw fish
+        item : { type: RAW_FISH, damage: 0, amount: 3 }
+      - name : 3 oak leaves
+        item : { type: LEAVES, amount: 3 }
+      - name : 3 wheat
+        item : { type: WHEAT, amount: 3 }
+      - name : 3 slime balls
+        item : { type: SLIME_BALL, amount: 3 }
+      - name : 3 raw salmon
+        item : { type: RAW_FISH, damage: 1, amount: 3 }
+      - name : 3 redstone
+        item : { type: REDSTONE, amount: 3 }
+      - name : 3 bookshelves
+        item : { type: BOOKSHELF, amount: 3 }
+  - minLevel : 30
+    challenges:
+      - name : 3 pumpkins
+        item : { type: PUMPKIN, amount: 3 }
+      - name : 3 melon slices
+        item : { type: MELON, amount: 3 }
+      - name : 3 Clownfish
+        item : { type: RAW_FISH, damage: 2, amount: 3 }
+      - name : 3 Pufferfish
+        item : { type: RAW_FISH, damage: 3, amount: 3 }
+      - name : 3 ender pearls
+        item : { type: ENDER_PEARL, amount: 3 }
+      - name : 1 emerald
+        item : { type: EMERALD, amount: 1 }
+      - name : 1 diamond
+        item : { type: DIAMOND, amount: 1 }
+      - name : 3 gold ore
+        item : { type: GOLD_ORE, amount: 3 }
+      - name : 3 lapis lazuli
+        item : { type: INK_SACK, damage: 4, amount: 3 }
+
