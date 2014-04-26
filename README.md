@@ -1,7 +1,9 @@
 5min2live
 =========
 
-This is the beta release of 5min2live. I'm looking for comments and feedback as well as new features to implement. What is 5min2win? It is a Minecraft Bukkit plugin where you must complete each successive challenge in five minutes or die. A challenge consists of set of items (e.g. 3 dirt blocks) that must be taken to a specific location (the Oni) and sacrificed by clicking on the glass block in its mouth.
+This is the beta release of 5min2live. I'm looking for comments and feedback as well as new features to implement.
+
+What is 5min2live? It is a Minecraft Bukkit plugin where you must complete each successive challenge in five minutes or die. A challenge consists of set of items (e.g. 3 dirt blocks) that must be taken to a specific location (the Oni) and sacrificed by clicking on the glass block in its mouth.
 
 Dependencies
 ------------
