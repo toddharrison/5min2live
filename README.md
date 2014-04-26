@@ -24,3 +24,5 @@ TODO
 * Configure the refresh rate of the timer to allow server-specific adjustments
 * Debug ConcurrentModificationException in PlayerManager
 * Documentation and plugin usage
+* Regenerate the world at specific intervals or when there are no current players
+* Handle chests left by a player who restarts

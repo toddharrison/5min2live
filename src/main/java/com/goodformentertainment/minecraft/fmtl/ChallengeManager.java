@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.bukkit.inventory.ItemStack;
 
-import com.goodformentertainment.minecraft.util.RandomSet;
+import com.goodformentertainment.util.RandomSet;
 
 public class ChallengeManager {
 	private final FmtlPlugin fmtl;
