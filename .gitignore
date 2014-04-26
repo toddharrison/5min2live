@@ -6,3 +6,6 @@ release.properties
 
 .DS_Store
 
+server
+test/
+
