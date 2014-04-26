@@ -31,3 +31,4 @@ TODO
 * Some placeable items (like flowers) prevent the Oni inventory from opening
 * Remove ability to enchant or repair items (would conflict with the game status indicators)
 * Disable PVP (optionally?)
+* Integrate scoreboard functionality
