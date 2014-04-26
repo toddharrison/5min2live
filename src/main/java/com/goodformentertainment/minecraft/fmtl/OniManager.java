@@ -3,7 +3,6 @@ package com.goodformentertainment.minecraft.fmtl;
 import static com.goodformentertainment.minecraft.util.Log.*;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -64,8 +63,19 @@ public class OniManager implements Listener, FmtlListener {
 			if (block.getLocation().equals(oniLocation)) {
 				event.setCancelled(true);
 				final Player player = event.getPlayer();
-				final Inventory inventory = Bukkit.createInventory(player, 9, ONI);
-				player.openInventory(inventory);
+				
+				// Check the item in hand first to give to the Oni
+				final ItemStack is = player.getItemInHand();
+				if (playerManager.completeChallenge(player, is)) {
+					// TODO refactor and move into playerManager
+					if (is.getAmount() == 0) {
+						player.setItemInHand(null);
+					}
+				} else {
+					// Otherwise open up an inventory for the Oni
+					final Inventory inventory = Bukkit.createInventory(player, 9, ONI);
+					player.openInventory(inventory);
+				}
 			}
 		}
 	}
@@ -77,21 +87,12 @@ public class OniManager implements Listener, FmtlListener {
 			final HumanEntity entity = event.getPlayer();
 			if (entity instanceof Player) {
 				final Player player = (Player) entity;
-				if (playerManager.completeChallenge(player, inventory)) {
-					inventory.clear();
-					playerManager.nextLevel(player);
-					player.sendMessage(ChatColor.RED
-							+ "I am satisfied with your sacrifices, for now! Bring me "
-							+ playerManager.getCurrentChallenge(player).getName() + "!");
-				} else {
-					final Location location = player.getLocation();
-					player.sendMessage(ChatColor.RED + "I am unsatisfied, be warned! Bring me "
-							+ playerManager.getCurrentChallenge(player).getName() + "!");
-					worldManager.getWorld().strikeLightningEffect(location);
-					for (final ItemStack itemStack : inventory.getContents()) {
-						if (itemStack != null) {
-							worldManager.getWorld().dropItemNaturally(oniLocation, itemStack).setPickupDelay(20);
-						}
+				playerManager.completeChallenge(player, inventory);
+				
+				// Drop remaining contents
+				for (final ItemStack itemStack : inventory.getContents()) {
+					if (itemStack != null) {
+						worldManager.getWorld().dropItemNaturally(oniLocation, itemStack).setPickupDelay(20);
 					}
 				}
 			}
@@ -102,10 +103,13 @@ public class OniManager implements Listener, FmtlListener {
 	public void onBlockBreak(final BlockBreakEvent event) {
 		final Block block = event.getBlock();
 		final int blockX = block.getX();
+		final int blockY = block.getY();
 		final int blockZ = block.getZ();
 		final int oniX = oniLocation.getBlockX();
+		final int oniY = oniLocation.getBlockY();
 		final int oniZ = oniLocation.getBlockZ();
-		if (blockX >= oniX - 10 && blockX <= oniX + 10 && blockZ >= oniZ - 10 && blockZ <= oniZ + 10) {
+		if (blockX >= oniX - 10 && blockX <= oniX + 10 && blockZ >= oniZ - 10 && blockZ <= oniZ + 10
+				&& blockY > oniY - 10) {
 			event.setCancelled(true);
 		}
 	}
@@ -114,10 +118,13 @@ public class OniManager implements Listener, FmtlListener {
 	public void onBlockPlace(final BlockPlaceEvent event) {
 		final Block block = event.getBlock();
 		final int blockX = block.getX();
+		final int blockY = block.getY();
 		final int blockZ = block.getZ();
 		final int oniX = oniLocation.getBlockX();
+		final int oniY = oniLocation.getBlockY();
 		final int oniZ = oniLocation.getBlockZ();
-		if (blockX >= oniX - 10 && blockX <= oniX + 10 && blockZ >= oniZ - 10 && blockZ <= oniZ + 10) {
+		if (blockX >= oniX - 10 && blockX <= oniX + 10 && blockZ >= oniZ - 10 && blockZ <= oniZ + 10
+				&& blockY > oniY - 10) {
 			event.setCancelled(true);
 		}
 	}

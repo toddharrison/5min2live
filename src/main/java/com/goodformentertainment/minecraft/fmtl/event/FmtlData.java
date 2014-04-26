@@ -41,8 +41,6 @@ public class FmtlData {
 	}
 	
 	public Location getPlayerExit(final Player player) {
-		logInfo(data.getString("player." + player.getName() + ".exit"));
-		logInfo(deserializeLocation(data.getString("player." + player.getName() + ".exit")).toString());
 		return deserializeLocation(data.getString("player." + player.getName() + ".exit"));
 	}
 	

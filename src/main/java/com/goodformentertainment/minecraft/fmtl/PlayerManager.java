@@ -108,10 +108,43 @@ public class PlayerManager implements Listener {
 		return players.get(player).getChallenge();
 	}
 	
+	// TODO refactor and combine with other completeChallenge
+	public boolean completeChallenge(final Player player, final ItemStack stack) {
+		boolean success = false;
+		final ItemStack challenge = players.get(player).getChallengeItem();
+		if (stack.isSimilar(challenge)) {
+			// Same type, check amounts
+			if (stack.getAmount() >= challenge.getAmount()) {
+				stack.setAmount(stack.getAmount() - challenge.getAmount());
+				nextLevel(player);
+				player.sendMessage(ChatColor.RED + "I am satisfied with your sacrifice, for now! Bring me "
+						+ getCurrentChallenge(player).getName() + "!");
+				success = true;
+			}
+		}
+		return success;
+	}
+	
+	// TODO refactor and combine with other completeChallenge
 	public boolean completeChallenge(final Player player, final Inventory inventory) {
 		boolean success = false;
-		if (inventory.contains(players.get(player).getChallengeItem())) {
-			success = true;
+		for (int i = 0; i < inventory.getSize(); i++) {
+			final ItemStack stack = inventory.getItem(i);
+			if (stack != null) {
+				if (completeChallenge(player, stack)) {
+					success = true;
+					if (stack.getAmount() == 0) {
+						inventory.clear(i);
+					}
+					break;
+				}
+			}
+		}
+		if (!success) {
+			final Location location = player.getLocation();
+			player.sendMessage(ChatColor.RED + "I am unsatisfied, be warned! Bring me "
+					+ getCurrentChallenge(player).getName() + "!");
+			worldManager.getWorld().strikeLightningEffect(location);
 		}
 		return success;
 	}
