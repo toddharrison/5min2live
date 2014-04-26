@@ -92,7 +92,7 @@ public class OniManager implements Listener, FmtlListener {
 				// Drop remaining contents
 				for (final ItemStack itemStack : inventory.getContents()) {
 					if (itemStack != null) {
-						worldManager.getWorld().dropItemNaturally(oniLocation, itemStack).setPickupDelay(20);
+						worldManager.getWorld().dropItemNaturally(oniLocation, itemStack);// .setPickupDelay(20);
 					}
 				}
 			}
