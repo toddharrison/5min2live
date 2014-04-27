@@ -36,4 +36,4 @@ TODO
 * Remove ability to enchant or repair items (would conflict with the game status indicators)
 * Integrate scoreboard functionality
 * Provide a timeout feature when players are disconnected (not exit) before regeneration
-* Prevent creeper, tnt and enderman effects on the Oni platform
+* Prevent enderman effects on the Oni platform

@@ -2,6 +2,8 @@ package com.goodformentertainment.minecraft.fmtl;
 
 import static com.goodformentertainment.minecraft.util.Log.*;
 
+import java.util.Iterator;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -126,6 +129,24 @@ public class OniManager implements Listener, FmtlListener {
 		if (blockX >= oniX - 10 && blockX <= oniX + 10 && blockZ >= oniZ - 10 && blockZ <= oniZ + 10
 				&& blockY > oniY - 10) {
 			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void onEntityExplode(final EntityExplodeEvent event) {
+		final int oniX = oniLocation.getBlockX();
+		final int oniY = oniLocation.getBlockY();
+		final int oniZ = oniLocation.getBlockZ();
+		final Iterator<Block> iter = event.blockList().iterator();
+		while (iter.hasNext()) {
+			final Block block = iter.next();
+			final int blockX = block.getX();
+			final int blockY = block.getY();
+			final int blockZ = block.getZ();
+			if (blockX >= oniX - 10 && blockX <= oniX + 10 && blockZ >= oniZ - 10 && blockZ <= oniZ + 10
+					&& blockY > oniY - 10) {
+				iter.remove();
+			}
 		}
 	}
 	
