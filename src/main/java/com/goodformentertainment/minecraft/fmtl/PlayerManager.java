@@ -21,6 +21,11 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 // TODO: reset the world if it is empty?
 public class PlayerManager implements Listener {
@@ -31,12 +36,21 @@ public class PlayerManager implements Listener {
 	private final ChallengeManager challengeManager;
 	private final Map<Player, PlayerData> players;
 	
+	private final ScoreboardManager scoreboardManager;
+	private final Scoreboard scoreboard;
+	private final Objective objective;
+	
 	public PlayerManager(final FmtlPlugin fmtl, final WorldManager worldManager,
 			final ChallengeManager challengeManager) {
 		this.fmtl = fmtl;
 		this.worldManager = worldManager;
 		this.challengeManager = challengeManager;
 		players = new HashMap<Player, PlayerData>();
+		scoreboardManager = Bukkit.getScoreboardManager();
+		scoreboard = scoreboardManager.getNewScoreboard();
+		objective = scoreboard.registerNewObjective("test", "dummy");
+		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+		objective.setDisplayName("Level");
 		
 		// for (final Player player : fmtl.getServer().getOnlinePlayers()) {
 		// players.add(player);
@@ -171,6 +185,7 @@ public class PlayerManager implements Listener {
 			added = true;
 			player.sendMessage(ChatColor.RED + "I am the ONI I demand your supplication!");
 			player.sendMessage(ChatColor.RED + "Bring me " + data.getChallengeName() + " or die!");
+			player.setScoreboard(scoreboard);
 		}
 		return added;
 	}
@@ -181,6 +196,7 @@ public class PlayerManager implements Listener {
 			final PlayerData data = players.remove(player);
 			removed = true;
 			player.sendMessage(ChatColor.GREEN + "You scored " + data.getLevel() + " at 5min2live");
+			player.setScoreboard(scoreboardManager.getNewScoreboard());
 		}
 		return removed;
 	}
@@ -190,11 +206,14 @@ public class PlayerManager implements Listener {
 		
 		private final Player player;
 		private int level;
+		private final Score score;
 		private int secondsLeft;
 		private Challenge challenge;
 		
 		public PlayerData(final Player player) {
 			this.player = player;
+			score = objective.getScore(player);
+			score.setScore(level);
 			secondsLeft = FIVE_MINUTES;
 			challenge = challengeManager.getRandomChallenge(level);
 		}
@@ -244,6 +263,7 @@ public class PlayerManager implements Listener {
 		public void nextLevel() {
 			secondsLeft = FIVE_MINUTES;
 			level++;
+			score.setScore(level);
 			challenge = challengeManager.getRandomChallenge(level);
 		}
 		
