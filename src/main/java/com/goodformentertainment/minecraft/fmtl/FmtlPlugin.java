@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.goodformentertainment.minecraft.fmtl.event.FmtlData;
 import com.goodformentertainment.minecraft.fmtl.event.FmtlEventNotifier;
+import com.goodformentertainment.minecraft.util.NoRain;
 
 // 20 ticks == 1 second
 
@@ -37,6 +38,7 @@ public class FmtlPlugin extends JavaPlugin {
 		
 		getServer().getPluginManager().registerEvents(playerManager, this);
 		getServer().getPluginManager().registerEvents(oniManager, this);
+		getServer().getPluginManager().registerEvents(new NoRain(), this);
 		
 		final FmtlCommand command = new FmtlCommand(this, worldManager);
 		getCommand("5m2l").setExecutor(command);
