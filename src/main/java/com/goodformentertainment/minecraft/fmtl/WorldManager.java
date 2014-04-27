@@ -1,5 +1,7 @@
 package com.goodformentertainment.minecraft.fmtl;
 
+import static com.goodformentertainment.minecraft.util.Log.*;
+
 import java.io.File;
 
 import org.bukkit.Difficulty;
@@ -72,6 +74,9 @@ public class WorldManager {
 		world = WorldCreator.name("5min2live").type(WorldType.NORMAL)
 				.environment(World.Environment.NORMAL).generator("5min2live").createWorld();
 		world.setDifficulty(Difficulty.HARD);
+		final boolean pvpEnabled = fmtl.getConfig().getBoolean("pvp", false);
+		world.setPVP(pvpEnabled);
+		logInfo("PVP Enabled: " + pvpEnabled);
 		eventNotifier.callEvent(new WorldReadyEvent(world));
 		isGenerating = false;
 	}

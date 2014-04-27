@@ -1,3 +1,4 @@
+pvp: false
 challengeSets:
   - minLevel : 0
     maxLevel : 4
