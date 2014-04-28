@@ -72,7 +72,8 @@ public class WorldManager {
 	private void createWorld() {
 		isGenerating = true;
 		world = WorldCreator.name("5min2live").type(WorldType.NORMAL)
-				.environment(World.Environment.NORMAL).generator("5min2live").createWorld();
+				.environment(World.Environment.NORMAL).generateStructures(false).createWorld();
+		// .generator("5min2live")
 		world.setDifficulty(Difficulty.HARD);
 		final boolean pvpEnabled = fmtl.getConfig().getBoolean("pvp", false);
 		world.setPVP(pvpEnabled);
