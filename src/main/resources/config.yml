@@ -1,4 +1,5 @@
 pvp: false
+secondsPerUpdate: 5
 challengeSets:
   - minLevel : 0
     maxLevel : 4

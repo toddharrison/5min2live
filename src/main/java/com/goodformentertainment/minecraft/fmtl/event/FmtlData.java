@@ -42,6 +42,10 @@ public class FmtlData {
 				.getValues(true));
 	}
 	
+	public Location getExitLocation(final Player player) {
+		return deserializeLocation(data.getString("player." + player.getName() + ".location"));
+	}
+	
 	public void save() {
 		try {
 			data.save(dataFile);

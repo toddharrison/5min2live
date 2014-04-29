@@ -58,29 +58,34 @@ public class PlayerManager implements Listener {
 		// logInfo(player.getName() + " joined");
 		// }
 		
+		final int secondsPerUpdate = fmtl.getConfig().getInt("secondsPerUpdate", 1);
 		final BukkitTask task = Bukkit.getServer().getScheduler().runTaskTimer(fmtl, new Runnable() {
 			@Override
 			public void run() {
 				if (!players.isEmpty()) {
 					for (final PlayerData data : players.values()) {
-						data.decrement();
+						data.decrement(secondsPerUpdate);
 					}
 				}
 			}
-		}, 0, ONE_SECOND);
+		}, 0, ONE_SECOND * secondsPerUpdate);
 	}
 	
 	@EventHandler
 	public void onPlayerJoin(final PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
+		logDebug("Player " + player.getName() + " joined");
 		if (inFmtl(player)) {
-			addPlayer(player);
+			// TODO check for timeout before sending them back
+			fmtl.getData().loadPlayerStats(player);
 		}
 	}
 	
 	@EventHandler
 	public void onPlayerChangeWorld(final PlayerChangedWorldEvent event) {
 		final Player player = event.getPlayer();
+		logDebug("Player " + player.getName() + " changed to " + player.getWorld().getName() + " from "
+				+ event.getFrom().getName());
 		if (inFmtl(player)) {
 			addPlayer(player);
 		} else if (event.getFrom() == worldManager.getWorld()) {
@@ -91,6 +96,7 @@ public class PlayerManager implements Listener {
 	@EventHandler
 	public void onPlayerQuit(final PlayerQuitEvent event) {
 		final Player player = event.getPlayer();
+		logDebug("Player " + player.getName() + " quit");
 		if (inFmtl(player)) {
 			removePlayer(player);
 		}
@@ -99,6 +105,7 @@ public class PlayerManager implements Listener {
 	@EventHandler
 	public void onPlayerDeath(final PlayerDeathEvent event) {
 		final Player player = event.getEntity();
+		logDebug("Player " + player.getName() + " died");
 		if (inFmtl(player)) {
 			removePlayer(player);
 			player.sendMessage(ChatColor.RED + "You have met your sudden but inevitable demise.");
@@ -109,9 +116,16 @@ public class PlayerManager implements Listener {
 	@EventHandler
 	public void onPlayerRespawn(final PlayerRespawnEvent event) {
 		final Player player = event.getPlayer();
+		logDebug("Player " + player.getName() + " respawned");
 		if (inFmtl(player)) {
-			fmtl.getData().loadPlayerStats(player);
-			event.setRespawnLocation(player.getLocation());
+			event.setRespawnLocation(fmtl.getData().getExitLocation(player));
+			// fmtl.getData().loadPlayerStats(player);
+			Bukkit.getServer().getScheduler().runTask(fmtl, new Runnable() {
+				@Override
+				public void run() {
+					fmtl.getData().loadPlayerStats(player);
+				}
+			});
 		}
 		// if (players.isEmpty()) {
 		// // worldManager.resetWorld();
@@ -230,8 +244,8 @@ public class PlayerManager implements Listener {
 			return challenge.getName();
 		}
 		
-		public void decrement() {
-			if (secondsLeft == 0) {
+		public void decrement(final int seconds) {
+			if (secondsLeft <= 0) {
 				player.sendMessage(ChatColor.RED + "You are out of time!");
 				final World world = worldManager.getWorld();
 				world.strikeLightningEffect(player.getLocation());
@@ -253,7 +267,7 @@ public class PlayerManager implements Listener {
 			}
 			player.setExp((float) secondsLeft / FIVE_MINUTES);
 			player.setLevel(level);
-			secondsLeft--;
+			secondsLeft -= seconds;
 		}
 		
 		public int getLevel() {

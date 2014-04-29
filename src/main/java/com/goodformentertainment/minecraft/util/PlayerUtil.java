@@ -115,6 +115,8 @@ public class PlayerUtil {
 		player.setFlySpeed(toFloat(map.get("flySpeed")));
 		player.setCanPickupItems((Boolean) map.get("canPickupItems"));
 		
+		player.getInventory().clear();
+		player.getEquipment().clear();
 		restoreInventory(player.getEnderChest(), (List<Map<String, Object>>) map.get("enderChest"));
 		restoreInventory(player.getInventory(), (List<Map<String, Object>>) map.get("inventory"));
 		restoreEntityEquipment(player.getEquipment(), (List<Map<String, Object>>) map.get("equipment"));
@@ -188,6 +190,12 @@ public class PlayerUtil {
 		return serializeItemStacks(inventory.getContents());
 	}
 	
+	/**
+	 * Be sure to clear the inventory first as it won't overwrite where nulls are in the list.
+	 * 
+	 * @param inventory
+	 * @param list
+	 */
 	public static void restoreInventory(final Inventory inventory,
 			final List<Map<String, Object>> list) {
 		inventory.setContents(deserializeItemStacks(list));

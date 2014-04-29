@@ -10,6 +10,12 @@ public final class Log {
 		Log.log = log;
 	}
 	
+	public static void logDebug(final Object msg) {
+		if (log != null && msg != null) {
+			log.fine(msg.toString());
+		}
+	}
+	
 	public static void logInfo(final Object msg) {
 		if (log != null && msg != null) {
 			log.info(msg.toString());
