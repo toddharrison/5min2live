@@ -264,7 +264,7 @@ public class PlayerManager implements Listener {
 			secondsLeft = FIVE_MINUTES;
 			level++;
 			score.setScore(level);
-			challenge = challengeManager.getRandomChallenge(level);
+			challenge = challengeManager.getRandomChallenge(level, challenge);
 		}
 		
 		private void notifyPlayer(final Player player, final String message, final Sound sound) {

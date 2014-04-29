@@ -28,6 +28,16 @@ public class ChallengeManager {
 		return set.getRandom();
 	}
 	
+	public Challenge getRandomChallenge(final int level, final Challenge excludeChallenge) {
+		final RandomSet<Challenge> set = new RandomSet<Challenge>();
+		for (final Challenge challenge : challenges) {
+			if (challenge.isInRange(level) && challenge != excludeChallenge) {
+				set.add(challenge);
+			}
+		}
+		return set.getRandom();
+	}
+	
 	private void loadConfiguration() {
 		for (final Object o : fmtl.getConfig().getList("challengeSets")) {
 			final Map<?, ?> m1 = (Map<?, ?>) o;
