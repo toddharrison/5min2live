@@ -5,8 +5,8 @@ description: You have five minutes to live. Good luck!
 author: ToddHarrison
 load: POSTWORLD
 
-depend: [Multiverse-Core]
-softdepend: [Vault]
+# depend: [Multiverse-Core]
+# softdepend: [Vault]
 
 commands:
   5m2l:

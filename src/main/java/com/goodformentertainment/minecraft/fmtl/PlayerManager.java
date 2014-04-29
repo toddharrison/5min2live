@@ -110,8 +110,8 @@ public class PlayerManager implements Listener {
 	public void onPlayerRespawn(final PlayerRespawnEvent event) {
 		final Player player = event.getPlayer();
 		if (inFmtl(player)) {
-			final Location exit = fmtl.getData().getPlayerExit(player);
-			event.setRespawnLocation(exit);
+			fmtl.getData().loadPlayerStats(player);
+			event.setRespawnLocation(player.getLocation());
 		}
 		// if (players.isEmpty()) {
 		// // worldManager.resetWorld();

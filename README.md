@@ -22,12 +22,12 @@ Features
 * Message and audio alerts to players as they approach the deadline
 * The player may right-click with an item in hand to sacrifice it directly or, if that doesn't
   match, it will open an inventory for the sacrifice
+* Built-in character switching that saves inventory, health, hunger, experience, location, potion
+  effects, etc.
 
 TODO
 ----
 
-* Built-in character switching doesn't handle inventory yet, only health, hunger, experience and
-  location
 * Configure the refresh rate of the timer to allow server-specific adjustments
 * Debug ConcurrentModificationException in PlayerManager
 * Documentation and plugin usage

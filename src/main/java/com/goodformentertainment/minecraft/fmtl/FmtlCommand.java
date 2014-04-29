@@ -34,7 +34,7 @@ public class FmtlCommand implements CommandExecutor {
 						if (attrs[0].equalsIgnoreCase("exit")) {
 							fmtl.getData().loadPlayerStats(player);
 							player.sendMessage(ChatColor.GREEN + "Leaving 5min2live");
-							player.teleport(fmtl.getData().getPlayerExit(player));
+							fmtl.getData().loadPlayerStats(player);
 							didExecute = true;
 						}
 					}
@@ -42,7 +42,6 @@ public class FmtlCommand implements CommandExecutor {
 					// Player is not in 5min2live world
 					if (!worldManager.isGeneratingWorld()) {
 						// Teleport to 5min2live world
-						fmtl.getData().setPlayerExit(player, player.getLocation());
 						fmtl.getData().savePlayerStats(player);
 						player.sendMessage(ChatColor.GREEN + "Joining 5min2live");
 						player.teleport(worldManager.getWorld().getSpawnLocation());
