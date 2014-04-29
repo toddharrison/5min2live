@@ -32,7 +32,6 @@ public class FmtlCommand implements CommandExecutor {
 					// Player is in 5min2live world
 					if (attrs.length > 0) {
 						if (attrs[0].equalsIgnoreCase("exit")) {
-							fmtl.getData().loadPlayerStats(player);
 							player.sendMessage(ChatColor.GREEN + "Leaving 5min2live");
 							fmtl.getData().loadPlayerStats(player);
 							didExecute = true;
