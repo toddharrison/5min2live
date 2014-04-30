@@ -21,6 +21,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.BlockIterator;
 
 import com.goodformentertainment.minecraft.fmtl.event.FmtlData;
 import com.goodformentertainment.minecraft.fmtl.event.FmtlEventHandler;
@@ -61,7 +62,34 @@ public class OniManager implements Listener, FmtlListener {
 	
 	@EventHandler
 	public void onPlayerInteract(final PlayerInteractEvent event) {
-		if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+		if (event.getAction() == Action.RIGHT_CLICK_AIR) {
+			final Player player = event.getPlayer();
+			final BlockIterator iter = new BlockIterator(player, 6);
+			while (iter.hasNext()) {
+				final Block block = iter.next();
+				if (block.getType() != Material.AIR) {
+					if (block.getLocation().equals(oniLocation)) {
+						event.setCancelled(true);
+						
+						// Check the item in hand first to give to the Oni
+						// TODO refactor to combine with logic below (DRY)
+						final ItemStack is = player.getItemInHand();
+						if (playerManager.completeChallenge(player, is)) {
+							// TODO refactor and move into playerManager
+							if (is.getAmount() == 0) {
+								player.setItemInHand(null);
+							}
+						} else {
+							// Otherwise open up an inventory for the Oni
+							final Inventory inventory = Bukkit.createInventory(player, 9, ONI);
+							player.openInventory(inventory);
+						}
+					}
+					break;
+				}
+			}
+			
+		} else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			final Block block = event.getClickedBlock();
 			if (block.getLocation().equals(oniLocation)) {
 				event.setCancelled(true);

@@ -40,7 +40,6 @@ TODO
 
 * Documentation and plugin usage examples
 * Regenerate the world at specific intervals or when there are no current players
-* Some placeable items (like flowers) prevent the Oni inventory from opening
 * Remove ability to enchant or repair items (would conflict with the game status indicators)
 * Integrate scoreboard functionality (partially done already)
 * Provide a timeout feature when players are disconnected (not exit) before regeneration
