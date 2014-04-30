@@ -145,7 +145,7 @@ public class PlayerManager implements Listener {
 			if (stack.getAmount() >= challenge.getAmount()) {
 				stack.setAmount(stack.getAmount() - challenge.getAmount());
 				nextLevel(player);
-				player.sendMessage(ChatColor.RED + "I am satisfied with your sacrifice, for now! Bring me "
+				player.sendMessage(ChatColor.RED + "I am satisfied with your sacrifice for now! Bring me "
 						+ getCurrentChallenge(player).getName() + "!");
 				success = true;
 			}

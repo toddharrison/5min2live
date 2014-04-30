@@ -31,19 +31,19 @@ public class FmtlData {
 	}
 	
 	public void savePlayerStats(final Player player) {
-		data.createSection("player." + player.getName(), serializePlayer(player));
+		data.createSection("player." + player.getUniqueId(), serializePlayer(player));
 		save();
 		clearPlayer(player);
 	}
 	
 	public void loadPlayerStats(final Player player) {
 		clearPlayer(player);
-		restorePlayer(player, data.getConfigurationSection("player." + player.getName())
-				.getValues(true));
+		restorePlayer(player,
+				data.getConfigurationSection("player." + player.getUniqueId()).getValues(true));
 	}
 	
 	public Location getExitLocation(final Player player) {
-		return deserializeLocation(data.getString("player." + player.getName() + ".location"));
+		return deserializeLocation(data.getString("player." + player.getUniqueId() + ".location"));
 	}
 	
 	public void save() {
