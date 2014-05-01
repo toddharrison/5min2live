@@ -104,18 +104,14 @@ public class WorldManager implements Listener {
 	@EventHandler
 	public void onWorldInit(final WorldInitEvent event) {
 		final World world = event.getWorld();
-		logInfo("World Init: " + world.getName());
 		if (world.getName().equals("5min2live")) {
-			logInfo(world.getPopulators());
-			
 			// final SimplexNoiseGenerator noiseGen = new SimplexNoiseGenerator(world.getSeed());
-			
 			world.getPopulators().add(new BlockPopulator() {
 				@Override
 				public void populate(final World world, final Random random, final Chunk source) {
 					for (int x = 0; x < 16; x++) {
 						for (int z = 0; z < 16; z++) {
-							if (random.nextDouble() > 0.99) {
+							if (random.nextDouble() > 0.995) {
 								// if (noiseGen.noise(x, z) >= 0.5) {
 								// for (int y = 0; y < 128; y++) {
 								final Block block = world.getHighestBlockAt(source.getX() * 16 + x,
