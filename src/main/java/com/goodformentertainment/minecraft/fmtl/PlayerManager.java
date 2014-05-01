@@ -2,6 +2,8 @@ package com.goodformentertainment.minecraft.fmtl;
 
 import static com.goodformentertainment.minecraft.util.Log.*;
 
+import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +38,8 @@ public class PlayerManager implements Listener {
 	private final ChallengeManager challengeManager;
 	private final Map<Player, PlayerData> players;
 	
+	private final Map<String, PlayerScore> highScores;
+	
 	private final ScoreboardManager scoreboardManager;
 	private final Scoreboard scoreboard;
 	private final Objective objective;
@@ -46,11 +50,13 @@ public class PlayerManager implements Listener {
 		this.worldManager = worldManager;
 		this.challengeManager = challengeManager;
 		players = new HashMap<Player, PlayerData>();
+		highScores = fmtl.getData().getHighScores();
+		
 		scoreboardManager = Bukkit.getScoreboardManager();
 		scoreboard = scoreboardManager.getNewScoreboard();
-		objective = scoreboard.registerNewObjective("test", "dummy");
+		objective = scoreboard.registerNewObjective("5min2live", "level");
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		objective.setDisplayName("Level");
+		objective.setDisplayName("Challenge Level");
 		
 		// for (final Player player : fmtl.getServer().getOnlinePlayers()) {
 		// players.add(player);
@@ -209,8 +215,26 @@ public class PlayerManager implements Listener {
 		if (players.containsKey(player)) {
 			final PlayerData data = players.remove(player);
 			removed = true;
-			player.sendMessage(ChatColor.GREEN + "You scored " + data.getLevel() + " at 5min2live");
+			final double minutes = (new Date().getTime() - data.getStartTime().getTime()) / 60000.0;
+			final DecimalFormat df = new DecimalFormat("#.#");
+			final int level = data.getLevel();
+			player.sendMessage(ChatColor.GREEN + "You scored " + level + " in " + df.format(minutes)
+					+ " minutes at 5min2live");
 			player.setScoreboard(scoreboardManager.getNewScoreboard());
+			
+			PlayerScore playerScore = highScores.get(player.getUniqueId().toString());
+			if (playerScore == null) {
+				playerScore = new PlayerScore(player.getName(), level, minutes);
+				highScores.put(player.getUniqueId().toString(), playerScore);
+				fmtl.getData().setHighScore(player, level, minutes);
+			} else {
+				final Integer oldLevel = playerScore.getLevel();
+				final Double oldMinutes = playerScore.getMinutes();
+				if (level == oldLevel && minutes < oldMinutes || level > oldLevel) {
+					playerScore.update(level, minutes);
+					fmtl.getData().setHighScore(player, level, minutes);
+				}
+			}
 		}
 		return removed;
 	}
@@ -223,6 +247,7 @@ public class PlayerManager implements Listener {
 		private final Score score;
 		private int secondsLeft;
 		private Challenge challenge;
+		private final Date startTime;
 		
 		public PlayerData(final Player player) {
 			this.player = player;
@@ -230,6 +255,7 @@ public class PlayerManager implements Listener {
 			score.setScore(level);
 			secondsLeft = FIVE_MINUTES;
 			challenge = challengeManager.getRandomChallenge(level);
+			startTime = new Date();
 		}
 		
 		public Challenge getChallenge() {
@@ -270,6 +296,10 @@ public class PlayerManager implements Listener {
 			secondsLeft -= seconds;
 		}
 		
+		public Date getStartTime() {
+			return startTime;
+		}
+		
 		public int getLevel() {
 			return level;
 		}
@@ -278,6 +308,8 @@ public class PlayerManager implements Listener {
 			secondsLeft = FIVE_MINUTES;
 			level++;
 			score.setScore(level);
+			player.setLevel(level);
+			player.setExp(1.0f);
 			challenge = challengeManager.getRandomChallenge(level, challenge);
 		}
 		

@@ -2,6 +2,9 @@ package com.goodformentertainment.minecraft.fmtl;
 
 import static com.goodformentertainment.minecraft.util.Log.*;
 
+import java.text.DecimalFormat;
+import java.util.SortedSet;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,9 +29,21 @@ public class FmtlCommand implements CommandExecutor {
 			// Command called from within Minecraft client
 			final Player player = (Player) sender;
 			
-			logInfo("Command called: " + label);
 			if (label.equalsIgnoreCase("fmtl") || label.equalsIgnoreCase("5m2l")) {
-				if (player.getWorld() == worldManager.getWorld()) {
+				if (attrs.length == 1 && attrs[0].equalsIgnoreCase("top")) {
+					player.sendMessage(ChatColor.RED + "Those who have pleased me:");
+					final SortedSet<PlayerScore> top = fmtl.getData().getScoreTop(5);
+					if (top == null || top.size() == 0) {
+						player.sendMessage(ChatColor.RED + "  No one!");
+					} else {
+						final DecimalFormat format = new DecimalFormat("#0.#");
+						for (final PlayerScore score : top) {
+							player.sendMessage(ChatColor.RED + "  " + score.getPlayerName() + " got to level "
+									+ score.getLevel() + " in " + format.format(score.getMinutes()) + " minutes");
+						}
+					}
+					didExecute = true;
+				} else if (player.getWorld() == worldManager.getWorld()) {
 					// Player is in 5min2live world
 					if (attrs.length > 0) {
 						if (attrs[0].equalsIgnoreCase("exit")) {
