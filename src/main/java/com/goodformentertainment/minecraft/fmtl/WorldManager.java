@@ -3,16 +3,25 @@ package com.goodformentertainment.minecraft.fmtl;
 import static com.goodformentertainment.minecraft.util.Log.*;
 
 import java.io.File;
+import java.util.Random;
 
+import org.bukkit.Chunk;
 import org.bukkit.Difficulty;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.WorldInitEvent;
+import org.bukkit.generator.BlockPopulator;
 
 import com.goodformentertainment.minecraft.fmtl.event.FmtlEventNotifier;
 import com.goodformentertainment.minecraft.fmtl.event.WorldReadyEvent;
 
-public class WorldManager {
+public class WorldManager implements Listener {
 	private final FmtlPlugin fmtl;
 	private final FmtlEventNotifier eventNotifier;
 	// private final Map<String, Location> exitLocations;
@@ -73,7 +82,6 @@ public class WorldManager {
 		isGenerating = true;
 		world = WorldCreator.name("5min2live").type(WorldType.NORMAL)
 				.environment(World.Environment.NORMAL).generateStructures(false).createWorld();
-		// .generator("5min2live")
 		world.setDifficulty(Difficulty.HARD);
 		final boolean pvpEnabled = fmtl.getConfig().getBoolean("pvp", false);
 		world.setPVP(pvpEnabled);
@@ -91,5 +99,39 @@ public class WorldManager {
 			}
 		}
 		file.delete();
+	}
+	
+	@EventHandler
+	public void onWorldInit(final WorldInitEvent event) {
+		final World world = event.getWorld();
+		logInfo("World Init: " + world.getName());
+		if (world.getName().equals("5min2live")) {
+			logInfo(world.getPopulators());
+			
+			// final SimplexNoiseGenerator noiseGen = new SimplexNoiseGenerator(world.getSeed());
+			
+			world.getPopulators().add(new BlockPopulator() {
+				@Override
+				public void populate(final World world, final Random random, final Chunk source) {
+					for (int x = 0; x < 16; x++) {
+						for (int z = 0; z < 16; z++) {
+							if (random.nextDouble() > 0.99) {
+								// if (noiseGen.noise(x, z) >= 0.5) {
+								// for (int y = 0; y < 128; y++) {
+								final Block block = world.getHighestBlockAt(source.getX() * 16 + x,
+										16 * source.getZ() + z);
+								if (block.getRelative(BlockFace.DOWN).getType() == Material.SAND
+										&& block.getRelative(BlockFace.NORTH).getType() == Material.AIR
+										&& block.getRelative(BlockFace.SOUTH).getType() == Material.AIR
+										&& block.getRelative(BlockFace.EAST).getType() == Material.AIR
+										&& block.getRelative(BlockFace.WEST).getType() == Material.AIR) {
+									block.setType(Material.CACTUS);
+								}
+							}
+						}
+					}
+				}
+			});
+		}
 	}
 }

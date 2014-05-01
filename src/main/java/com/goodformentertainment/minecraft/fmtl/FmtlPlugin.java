@@ -36,6 +36,7 @@ public class FmtlPlugin extends JavaPlugin {
 		
 		eventNotifier.registerEvents(oniManager);
 		
+		getServer().getPluginManager().registerEvents(worldManager, this);
 		getServer().getPluginManager().registerEvents(playerManager, this);
 		getServer().getPluginManager().registerEvents(oniManager, this);
 		getServer().getPluginManager().registerEvents(new NoRain(), this);
