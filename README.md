@@ -15,6 +15,25 @@ Dependencies
 
 * Testing with Bukkit 1.7.2-R0.3
 
+Commands
+--------
+
+Go to the 5min2live world:
+
+    /fmtl or /5m2l
+    
+Abandon the game and leave the 5min2live world:
+
+    /fmtl exit
+
+Show the top scores in 5min2live:
+
+    /fmtl top
+
+Warp back to the Oni:
+
+    /oni
+
 Features
 --------
 
